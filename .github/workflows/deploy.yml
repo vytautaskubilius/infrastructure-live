@@ -10,15 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Terragrunt plan - Kumetynas
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Setup Terragrunt
         uses: autero1/action-terragrunt@v1.0.0
         with:
           terragrunt_version: 0.28.2
-      - name: Terragrunt plan-all
+      - name: Terragrunt plan-all - Kumetynas
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         working-directory: megadodo/eu-north-1/production
         run: terragrunt --plan-all --terragrunt-non-interactive
 
@@ -30,14 +29,13 @@ jobs:
     needs: plan
     steps:
       - uses: actions/checkout@v2
-      - name: Terragrunt apply - Kumetynas
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Setup Terragrunt
         uses: autero1/action-terragrunt@v1.0.0
         with:
           terragrunt_version: 0.28.2
-      - name: Terragrunt plan-all
+      - name: Terragrunt apply-all - Kumetynas
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         working-directory: megadodo/eu-north-1/production
         run: terragrunt --apply-all --terragrunt-non-interactive
