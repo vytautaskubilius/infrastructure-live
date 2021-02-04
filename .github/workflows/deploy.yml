@@ -18,8 +18,12 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        working-directory: megadodo/eu-north-1/production
-        run: terragrunt plan-all --terragrunt-non-interactive
+          GIT_SSH_COMMAND: "echo '${{ secrets.INFRASTRUCTURE_MODULES_DEPLOY_KEY }}' > id_rsa
+                  && ssh-keyscan github.com > known_hosts
+                  && chmod 600 id_rsa known_hosts
+                  && ssh -i ./id_rsa -o UserKnownHostsFile=./known_hosts"
+        working-directory: megadodo/eu-north-1/production/kumetynas
+        run: terragrunt run-all plan --terragrunt-non-interactive
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,5 +41,9 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        working-directory: megadodo/eu-north-1/production
-        run: terragrunt apply-all --terragrunt-non-interactive
+          GIT_SSH_COMMAND: "echo '${{ secrets.INFRASTRUCTURE_MODULES_DEPLOY_KEY }}' > id_rsa
+                  && ssh-keyscan github.com > known_hosts
+                  && chmod 600 id_rsa known_hosts
+                  && ssh -i ./id_rsa -o UserKnownHostsFile=./known_hosts"
+        working-directory: megadodo/eu-north-1/production/kumetynas
+        run: terragrunt run-all apply --terragrunt-non-interactive
