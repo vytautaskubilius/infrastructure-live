@@ -3,7 +3,7 @@ name: megadodo-460665430878/kumetynas-336258401857/eu-north-1/production
 on:
   push:
     branches:
-      - *
+      - "**"
 
 jobs:
   plan:
