@@ -15,9 +15,9 @@ dependency "hosted_zone" {
 }
 
 inputs = {
-  vpc_id = dependency.vpc.outputs.vpc_id
-  subnet_id = dependency.vpc.outputs.public_subnet_id
+  vpc_id         = dependency.vpc.outputs.vpc_id
+  subnet_id      = dependency.vpc.outputs.public_subnet_id
   hosted_zone_id = dependency.hosted_zone.outputs.hosted_zone_id
-  key_pair_name = "kumetynas-production"
-  domain = "kumetynas.lt"
+  key_pair_name  = "kumetynas-production"
+  domain         = "kumetynas.lt"
 }

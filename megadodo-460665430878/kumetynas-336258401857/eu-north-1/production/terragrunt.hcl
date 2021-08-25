@@ -11,24 +11,24 @@ remote_state {
     region         = "eu-north-1"
     encrypt        = true
     s3_bucket_tags = {
-      "project"    = "kumetynas"
+      "project"     = "kumetynas"
       "environment" = "production"
-      "managed-by" = "terraform"
-      "github"     = "https://github.com/vytautaskubilius/infrastructure-live"
+      "managed-by"  = "terraform"
+      "github"      = "https://github.com/vytautaskubilius/infrastructure-live"
     }
     dynamodb_table_tags = {
-      "project"    = "kumetynas"
+      "project"     = "kumetynas"
       "environment" = "production"
-      "managed-by" = "terraform"
-      "github"     = "https://github.com/vytautaskubilius/infrastructure-live"
+      "managed-by"  = "terraform"
+      "github"      = "https://github.com/vytautaskubilius/infrastructure-live"
     }
   }
 }
 
 generate "provider" {
-  path = "provider.tf"
+  path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
-  contents = <<EOF
+  contents  = <<EOF
 provider "aws" {
   region = "eu-north-1"
   default_tags {
