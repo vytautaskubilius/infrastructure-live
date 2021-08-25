@@ -31,7 +31,7 @@ jobs:
                   && chmod 600 id_rsa known_hosts
                   && ssh -i ./id_rsa -o UserKnownHostsFile=./known_hosts"
         working-directory: ${{ github.workflow }}
-        run: terragrunt run-all plan --terragrunt-non-interactive
+        run: terragrunt run-all plan --terragrunt-non-interactive --terragrunt-log-level debug --terragrunt-debug
 
   deploy:
     runs-on: ubuntu-latest
