@@ -1,35 +1,43 @@
-name: deploy
+name: megadodo-460665430878/kumetynas-336258401857/eu-north-1/production
 
 on:
   push:
-    branches: [main]
-  pull_request:
+    branches:
+      - *
 
 jobs:
   plan:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.workflow }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup Terragrunt
         uses: autero1/action-terragrunt@v1.0.0
         with:
           terragrunt_version: 0.28.2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-duration-seconds: 1200
       - name: Terragrunt plan-all - Kumetynas
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           GIT_SSH_COMMAND: "echo '${{ secrets.INFRASTRUCTURE_MODULES_DEPLOY_KEY }}' > id_rsa
                   && ssh-keyscan github.com > known_hosts
                   && chmod 600 id_rsa known_hosts
                   && ssh -i ./id_rsa -o UserKnownHostsFile=./known_hosts"
-        working-directory: megadodo-460665430878/kumetynas-336258401857/eu-north-1/production
+        working-directory: ${{ github.workflow }}
         run: terragrunt run-all plan --terragrunt-non-interactive
 
   deploy:
     runs-on: ubuntu-latest
     environment:
       name: production
-    if: github.event_name == 'push'
+    if: github.ref == 'refs/heads/main'
     needs: plan
     steps:
       - uses: actions/checkout@v2
@@ -37,13 +45,19 @@ jobs:
         uses: autero1/action-terragrunt@v1.0.0
         with:
           terragrunt_version: 0.28.2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-duration-seconds: 1200
       - name: Terragrunt apply-all - Kumetynas
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           GIT_SSH_COMMAND: "echo '${{ secrets.INFRASTRUCTURE_MODULES_DEPLOY_KEY }}' > id_rsa
                   && ssh-keyscan github.com > known_hosts
                   && chmod 600 id_rsa known_hosts
                   && ssh -i ./id_rsa -o UserKnownHostsFile=./known_hosts"
-        working-directory: megadodo-460665430878/kumetynas-336258401857/eu-north-1/production
+        working-directory: ${{ github.workflow }}
         run: terragrunt run-all apply --terragrunt-non-interactive
