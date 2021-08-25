@@ -3,7 +3,7 @@ include {
 }
 
 terraform {
-  source = "git@github.com:vytautaskubilius/infrastructure-modules.git//modules/wordpress-instance?ref=v0.2.0"
+  source = "git@github.com:vytautaskubilius/infrastructure-modules.git//modules/wordpress-instance?ref=v0.2.1"
 }
 
 dependency "vpc" {
