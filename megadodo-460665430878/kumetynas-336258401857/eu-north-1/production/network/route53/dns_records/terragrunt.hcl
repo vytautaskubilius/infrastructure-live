@@ -3,7 +3,7 @@ include {
 }
 
 terraform {
-  source = "git@github.com:vytautaskubilius/infrastructure-modules.git//modules/route53_dns_record?ref=v0.2.1"
+  source = "git@github.com:vytautaskubilius/infrastructure-modules.git//modules/route53_dns_record?ref=v0.2.2"
 }
 
 dependency "hosted_zone" {
