@@ -3,7 +3,7 @@ include {
 }
 
 terraform {
-  source = "git@github.com:vytautaskubilius/infrastructure-modules.git//modules/route53_hosted_zone?ref=v0.2.2"
+  source = "git@github.com:vytautaskubilius/infrastructure-modules.git//modules/route53_hosted_zone?ref=v0.2.3"
 }
 
 inputs = {
