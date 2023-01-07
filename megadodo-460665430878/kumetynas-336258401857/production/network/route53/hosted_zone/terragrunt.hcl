@@ -7,7 +7,7 @@ terraform {
 }
 
 inputs = {
-  name        = "kumetynas.lt"
+  name        = "akmuotis.lt"
   environment = "production"
-  project     = "kumetynas"
+  project     = "akmuotis"
 }
